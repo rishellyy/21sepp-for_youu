@@ -1,501 +1,1123 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flores Amarillas & Cartas de Snoopy 💛</title>
-    <!-- FontAwesome & Google Fonts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Fredoka:wght@400;600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <!-- Three.js CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+               maximum-scale=1.0, user-scalable=no">
 
-    <style>
-        :root {
-            --yellow-main: #ffd500;
-            --yellow-bright: #ffea00;
-            --yellow-soft: #fff9c4;
-            --gold-accent: #ffb700;
-            --heart-red: #ff3366;
-            --bg-dark: #12121e;
-            --card-glass: rgba(255, 255, 255, 0.88);
-            --card-border: rgba(255, 213, 0, 0.4);
-        }
+<title>21 de Septiembre 💛</title>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            user-select: none;
-        }
+<style>
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-dark);
-            color: #333;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
 
-        /* Canvas de Three.js en el fondo */
-        #canvas3d {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            pointer-events: auto;
-        }
+html{
+    scroll-behavior:smooth;
+}
 
-        /* Overlay UI */
-        .app-container {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            pointer-events: none;
-        }
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+    background:
+        radial-gradient(circle at 50% 20%, #392c08 0%, #171306 30%, #080806 75%);
+    color:white;
+    font-family:Georgia, "Times New Roman", serif;
+}
 
-        .app-container * {
-            pointer-events: auto;
-        }
+/* =====================================================
+   CANVAS GENERAL
+===================================================== */
 
-        /* Encabezado Principal */
-        header {
-            text-align: center;
-            margin-top: 15px;
-            margin-bottom: 25px;
-            color: #fff;
-            text-shadow: 0 4px 15px rgba(255, 213, 0, 0.6);
-        }
+#magicCanvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:0;
+}
 
-        header h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3.2rem;
-            color: var(--yellow-bright);
-            margin-bottom: 5px;
-        }
+/* =====================================================
+   PÁGINAS
+===================================================== */
 
-        header p {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1.1rem;
-            color: var(--yellow-soft);
-            letter-spacing: 1px;
-        }
+.page{
+    position:relative;
+    z-index:2;
+    min-height:100vh;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:28px 16px;
+}
 
-        /* Selector de Cartas (Navegación 2 Partes) */
-        .card-selector {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 8px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 235, 59, 0.3);
-        }
+.hidden{
+    display:none !important;
+}
 
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1rem;
-            padding: 10px 24px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+/* =====================================================
+   PÁGINA 1
+===================================================== */
 
-        .tab-btn i {
-            font-size: 1.1rem;
-        }
+.main-content{
+    width:100%;
+    max-width:520px;
+    text-align:center;
+    animation:pageAppear 1.2s ease;
+}
 
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--yellow-main), var(--gold-accent));
-            color: #1a1a1a;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(255, 183, 0, 0.5);
-        }
+@keyframes pageAppear{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
 
-        /* Card Container (2 Partes) */
-        .cards-wrapper {
-            width: 100%;
-            max-width: 850px;
-            position: relative;
-            perspective: 1000px;
-        }
+/* =====================================================
+   TITULO
+===================================================== */
 
-        .card-part {
-            display: none;
-            background: var(--card-glass);
-            border: 2px solid var(--card-border);
-            border-radius: 24px;
-            padding: 35px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 235, 59, 0.2);
-            backdrop-filter: blur(12px);
-            animation: fadeIn 0.6s ease forwards;
-        }
+.intro-small{
+    font-size:0.78rem;
+    letter-spacing:4px;
+    color:#f4d979;
+    margin-bottom:16px;
+    text-transform:uppercase;
+}
 
-        .card-part.active {
-            display: block;
-        }
+.main-title{
+    font-size:clamp(2rem, 10vw, 3.3rem);
+    line-height:1.05;
+    color:#fff8d8;
+    text-shadow:
+        0 0 8px rgba(255,221,94,.5),
+        0 0 25px rgba(255,194,42,.3);
+    margin-bottom:14px;
+}
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.98);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
+.main-title span{
+    display:block;
+}
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 2px dashed rgba(255, 183, 0, 0.4);
-            padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
+.subtitle{
+    color:#ddd4b7;
+    font-size:0.95rem;
+    line-height:1.6;
+    max-width:350px;
+    margin:0 auto 27px;
+}
 
-        .card-title {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.2rem;
-            color: #d48800;
-        }
+/* =====================================================
+   BOTÓN INICIAL
+===================================================== */
 
-        .card-badge {
-            background: #fff3c4;
-            color: #b77900;
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
+.magic-button{
+    position:relative;
+    border:none;
+    outline:none;
+    cursor:pointer;
 
-        .card-body-content {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 25px;
-            align-items: center;
-        }
+    padding:15px 31px;
+    min-width:190px;
 
-        @media (max-width: 768px) {
-            .card-body-content {
-                grid-template-columns: 1fr;
-            }
-        }
+    border-radius:50px;
 
-        /* Snoopy Illustrations Frame */
-        .snoopy-box {
-            background: linear-gradient(135deg, #fffef0, #fff7c2);
-            border-radius: 20px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #ffe082;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-            position: relative;
-            overflow: hidden;
-        }
+    color:#392b00;
+    background:
+        linear-gradient(
+            135deg,
+            #fff5a8,
+            #f9d94c,
+            #fff0a0
+        );
 
-        .snoopy-svg {
-            width: 100%;
-            max-width: 210px;
-            height: auto;
-            filter: drop-shadow(0 6px 10px rgba(0,0,0,0.15));
-            transition: transform 0.3s ease;
-        }
+    font-size:1rem;
+    font-weight:bold;
+    letter-spacing:1px;
 
-        .snoopy-box:hover .snoopy-svg {
-            transform: scale(1.05) rotate(2deg);
-        }
+    box-shadow:
+        0 0 10px rgba(255,225,93,.4),
+        0 0 30px rgba(255,210,60,.18),
+        inset 0 1px 1px white;
 
-        .snoopy-caption {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 0.95rem;
-            color: #b77900;
-            margin-top: 12px;
-            text-align: center;
-        }
+    transition:.25s ease;
+}
 
-        /* Carta Contenido Escrito */
-        .letter-text {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: #2c2c2c;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 20px;
-            border-radius: 16px;
-            border-left: 4px solid var(--gold-accent);
-        }
+.magic-button::before{
+    content:"";
+    position:absolute;
+    inset:-4px;
+    border-radius:inherit;
+    border:1px solid rgba(255,240,150,.4);
+    animation:buttonGlow 2s infinite;
+}
 
-        .letter-text p {
-            margin-bottom: 12px;
-        }
+@keyframes buttonGlow{
+    0%,100%{
+        opacity:.4;
+        transform:scale(1);
+    }
+    50%{
+        opacity:1;
+        transform:scale(1.04);
+    }
+}
 
-        .letter-signature {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.8rem;
-            color: #d48800;
-            text-align: right;
-            margin-top: 15px;
-        }
+.magic-button:active{
+    transform:scale(.95);
+}
 
-        /* Botones de Acción Interactivas */
-        .actions-bar {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+.magic-button:hover{
+    transform:translateY(-2px) scale(1.03);
+}
 
-        .action-btn {
-            background: linear-gradient(135deg, #ffea00, #ffb700);
-            border: none;
-            color: #222;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1rem;
-            padding: 12px 24px;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(255, 183, 0, 0.4);
-            transition: all 0.25s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+/* =====================================================
+   CARTA
+===================================================== */
 
-        .action-btn:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(255, 183, 0, 0.6);
-            background: linear-gradient(135deg, #fff066, #ffc400);
-        }
+.letter-wrapper{
+    margin-top:30px;
+    perspective:1000px;
+}
 
-        .action-btn:active {
-            transform: translateY(1px);
-        }
+.letter{
+    position:relative;
 
-        /* Floating Hearts / Flower Particles Overlay */
-        .floating-element {
-            position: fixed;
-            pointer-events: none;
-            z-index: 99;
-            animation: floatUp 4s linear forwards;
-            font-size: 1.8rem;
-        }
+    background:
+        linear-gradient(
+            145deg,
+            #fff8d8,
+            #f8e7ae 50%,
+            #ecd18c
+        );
 
-        @keyframes floatUp {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(0.8) rotate(0deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-100vh) scale(1.4) rotate(360deg);
-            }
-        }
+    color:#4b3517;
 
-        /* Banner de Instrucción 3D */
-        .3d-hint {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.65);
-            color: #ffe082;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            z-index: 10;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 224, 130, 0.3);
-            pointer-events: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-    </style>
+    border-radius:7px;
+
+    padding:31px 23px 28px;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.5),
+        0 0 40px rgba(255,211,78,.13),
+        inset 0 0 20px rgba(145,93,20,.12);
+
+    transform-origin:top center;
+
+    animation:letterOpen 1.2s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes letterOpen{
+    0%{
+        opacity:0;
+        transform:
+            rotateX(-35deg)
+            translateY(-25px)
+            scale(.95);
+    }
+    100%{
+        opacity:1;
+        transform:
+            rotateX(0)
+            translateY(0)
+            scale(1);
+    }
+}
+
+/* bordes de la carta */
+
+.letter::before{
+    content:"";
+    position:absolute;
+    inset:9px;
+    border:1px solid rgba(130,91,28,.3);
+    border-radius:4px;
+    pointer-events:none;
+}
+
+.letter::after{
+    content:"✦";
+    position:absolute;
+    top:13px;
+    right:17px;
+    color:#c49525;
+    font-size:16px;
+}
+
+.letter-title{
+    font-size:1.5rem;
+    color:#76551c;
+    margin-bottom:19px;
+    position:relative;
+    z-index:1;
+}
+
+.letter-text{
+    position:relative;
+    z-index:1;
+
+    font-size:1rem;
+    line-height:1.75;
+
+    text-align:left;
+}
+
+.letter-text p{
+    margin-bottom:14px;
+}
+
+.signature{
+    text-align:right;
+    font-style:italic;
+    color:#876326;
+    margin-top:22px;
+    font-size:1.05rem;
+}
+
+/* =====================================================
+   SNOOPY
+===================================================== */
+
+.snoopy-box{
+    position:relative;
+    z-index:1;
+
+    margin:23px auto 8px;
+
+    width:min(88%,330px);
+    min-height:185px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:18px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.55),
+            rgba(255,240,174,.25) 45%,
+            transparent 72%
+        );
+}
+
+.snoopy-box img{
+    width:100%;
+    max-width:290px;
+    max-height:215px;
+
+    object-fit:contain;
+
+    filter:
+        drop-shadow(0 7px 8px rgba(65,38,0,.22));
+
+    animation:snoopyFloat 3s ease-in-out infinite;
+}
+
+@keyframes snoopyFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-5px);
+    }
+}
+
+/* =====================================================
+   BOTÓN SEGUNDA PÁGINA
+===================================================== */
+
+.next-button{
+    margin-top:24px;
+    position:relative;
+    z-index:1;
+
+    border:1px solid rgba(126,92,25,.45);
+    background:
+        linear-gradient(
+            135deg,
+            #806020,
+            #b18b38,
+            #755418
+        );
+
+    color:#fff8d6;
+
+    padding:14px 23px;
+
+    border-radius:40px;
+
+    font-size:.92rem;
+    font-weight:bold;
+    letter-spacing:.5px;
+
+    box-shadow:
+        0 6px 18px rgba(91,57,0,.25);
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.next-button:active{
+    transform:scale(.95);
+}
+
+/* =====================================================
+   SEGUNDA PÁGINA
+===================================================== */
+
+#page2{
+    background:
+        radial-gradient(
+            circle at 50% 35%,
+            #42350b 0%,
+            #171306 38%,
+            #060605 80%
+        );
+}
+
+.bouquet-content{
+    width:100%;
+    max-width:520px;
+    text-align:center;
+}
+
+.bouquet-title{
+    font-size:clamp(1.8rem,8vw,2.8rem);
+    color:#fff3a5;
+
+    text-shadow:
+        0 0 10px rgba(255,222,75,.6),
+        0 0 30px rgba(255,198,43,.3);
+
+    line-height:1.15;
+
+    margin-bottom:10px;
+}
+
+.bouquet-subtitle{
+    color:#d6cfb2;
+    font-size:.9rem;
+    margin-bottom:15px;
+}
+
+/* Canvas de flores */
+
+#flowerCanvas{
+    display:block;
+
+    width:100%;
+    max-width:500px;
+
+    height:460px;
+
+    margin:0 auto;
+
+    border-radius:25px;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(255,224,94,.07),
+            transparent 65%
+        );
+}
+
+/* texto final */
+
+.final-message{
+    opacity:0;
+    transform:translateY(15px);
+
+    transition:
+        opacity 1.5s ease,
+        transform 1.5s ease;
+
+    color:#fff4bd;
+
+    font-size:1rem;
+    line-height:1.6;
+
+    margin-top:5px;
+}
+
+.final-message.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* botón volver */
+
+.back-button{
+    margin-top:22px;
+
+    border:none;
+    background:rgba(255,255,255,.07);
+    color:#ddd4a8;
+
+    padding:11px 22px;
+    border-radius:30px;
+
+    border:1px solid rgba(255,230,130,.15);
+
+    cursor:pointer;
+}
+
+/* =====================================================
+   CORAZONES
+===================================================== */
+
+.heart{
+    position:fixed;
+    z-index:20;
+
+    pointer-events:none;
+
+    font-size:18px;
+
+    animation:
+        heartFly 3.8s cubic-bezier(.2,.8,.3,1) forwards;
+}
+
+@keyframes heartFly{
+
+    0%{
+        opacity:0;
+        transform:
+            translate(0,0)
+            scale(.4)
+            rotate(0deg);
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:0;
+
+        transform:
+            translate(
+                var(--x),
+                -105vh
+            )
+            scale(1.25)
+            rotate(var(--r));
+    }
+}
+
+/* =====================================================
+   ADAPTACIÓN CELULAR
+===================================================== */
+
+@media(max-width:420px){
+
+    .page{
+        padding:
+            24px
+            13px
+            30px;
+    }
+
+    .main-title{
+        font-size:2.25rem;
+    }
+
+    .letter{
+        padding:27px 18px 25px;
+    }
+
+    .letter-text{
+        font-size:.94rem;
+        line-height:1.7;
+    }
+
+    .snoopy-box{
+        width:100%;
+        min-height:170px;
+    }
+
+    .snoopy-box img{
+        max-width:270px;
+    }
+
+    #flowerCanvas{
+        height:420px;
+    }
+}
+
+</style>
 </head>
+
 <body>
 
-    <!-- Canvas 3D para el Ramo de Flores en Puntos -->
-    <canvas id="canvas3d"></canvas>
+<!-- =====================================================
+     CANVAS FONDO
+===================================================== -->
 
-    <!-- Indicador para rotar el 3D -->
-    <div class="3d-hint">
-        <i class="fa-solid fa-arrows-spin"></i> Arrastra con el mouse / dedo para girar el Ramo 3D
-    </div>
+<canvas id="magicCanvas"></canvas>
 
-    <!-- Contenido Principal -->
-    <div class="app-container">
-        
-        <header>
-            <h1>Flores Amarillas & Snoopy</h1>
-            <p>21 de Septiembre • Un detalle especial para ti 🌻✨</p>
-        </header>
 
-        <!-- Navegación de las 2 Partes de la Carta -->
-        <div class="card-selector">
-            <button class="tab-btn active" onclick="switchCard(1)">
-                <i class="fa-solid fa-heart"></i> Parte 1: El Abrazote de Snoopy
-            </button>
-            <button class="tab-btn" onclick="switchCard(2)">
-                <i class="fa-solid fa-sun"></i> Parte 2: Carta de Flores Amarillas
-            </button>
+<!-- =====================================================
+     MÚSICA
+     Se reproducirá desde el botón y se detendrá en 60s
+===================================================== -->
+
+<audio id="music" preload="auto">
+    <source
+        src="Floricienta_-_Flores_Amarillas_Karaoke_Karaoke_(mp3.pm).mp3"
+        type="audio/mpeg">
+</audio>
+
+
+<!-- =====================================================
+     PÁGINA 1
+===================================================== -->
+
+<section class="page" id="page1">
+
+    <div class="main-content">
+
+        <div class="intro-small">
+            21 · SEPTIEMBRE
         </div>
 
-        <!-- Wrapper de las Cartas -->
-        <div class="cards-wrapper">
+        <h1 class="main-title">
+            <span>HOLAAAA</span>
+            <span>esto es para ti 🫰🏻</span>
+        </h1>
 
-            <!-- PARTE 1: SNOOPY ABRAZANDO UN CORAZÓN -->
-            <div class="card-part active" id="card-part-1">
-                <div class="card-header">
-                    <div class="card-title">Parte I: Amor, Abrazos y Cariño ❤️</div>
-                    <div class="card-badge">Snoopy & Corazón</div>
+        <p class="subtitle">
+            Hice algo pequeñito, pero con muchísimo cariño.
+            Toca el botón y deja que comience ✨
+        </p>
+
+        <button
+            class="magic-button"
+            id="openButton">
+
+            ✨ Abrir mi sorpresa ✨
+
+        </button>
+
+
+        <!-- CARTA -->
+
+        <div
+            class="letter-wrapper hidden"
+            id="letterWrapper">
+
+            <div class="letter">
+
+                <h2 class="letter-title">
+                    💌 Para ti
+                </h2>
+
+
+                <div class="letter-text">
+
+                    <p>
+                        ✨ ¡Feliz 21 de Septiembre! ✨
+                    </p>
+
+                    <p>
+                        Quería hacerte algo diferente,
+                        algo que no fuera simplemente un
+                        mensaje más.
+                    </p>
+
+                    <p>
+                        Gracias por cada sonrisa, por las
+                        conversaciones, por los momentos
+                        bonitos y por formar parte de esos
+                        pequeños recuerdos que hacen que
+                        los días sean mucho más especiales.
+                    </p>
+
+                    <p>
+                        Espero que hoy recibas todo el
+                        cariño que mereces y que nunca
+                        te falten motivos para sonreír.
+                        💛
+                    </p>
+
+                    <p>
+                        Y como las palabras a veces no son
+                        suficientes...
+                        te preparé algo más.
+                    </p>
+
                 </div>
 
-                <div class="card-body-content">
-                    <div class="snoopy-box">
-                        <!-- Vector SVG Ilustración Snoopy Abrazando Corazón -->
-                        <svg class="snoopy-svg" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Sombra -->
-                            <ellipse cx="100" cy="205" rx="65" ry="10" fill="#e6d28e" opacity="0.6"/>
-                            <!-- Oreja Izquierda -->
-                            <path d="M 50 65 C 30 70 25 110 40 125 C 50 135 60 110 58 85 Z" fill="#222"/>
-                            <!-- Cabeza de Snoopy -->
-                            <path d="M 60 70 C 60 35 110 30 130 55 C 145 70 145 95 130 105 C 110 115 75 115 65 100 C 58 90 60 80 60 70 Z" fill="#ffffff" stroke="#222" stroke-width="4.5" stroke-linejoin="round"/>
-                            <!-- Ojo cerrado feliz -->
-                            <path d="M 100 62 Q 106 55 112 62" fill="none" stroke="#222" stroke-width="4" stroke-linecap="round"/>
-                            <!-- Nariz -->
-                            <ellipse cx="134" cy="72" rx="9" ry="7" fill="#222"/>
-                            <!-- Sonrisa -->
-                            <path d="M 115 82 Q 125 90 132 80" fill="none" stroke="#222" stroke-width="3.5" stroke-linecap="round"/>
-                            <!-- Cuerpo -->
-                            <path d="M 75 105 L 70 170 Q 70 185 95 185 L 115 185 Q 130 185 125 165 L 120 105 Z" fill="#ffffff" stroke="#222" stroke-width="4.5"/>
-                            <!-- Gran Corazón Rojo que Snoopy Abraza -->
-                            <path d="M 100 110 C 100 90 70 80 60 105 C 45 135 100 175 100 175 C 100 175 155 135 140 105 C 130 80 100 90 100 110 Z" fill="#ff3366" stroke="#cc0033" stroke-width="3.5"/>
-                            <!-- Brazos abrazando el corazón -->
-                            <path d="M 68 125 Q 85 138 102 135" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
-                            <path d="M 68 125 Q 85 138 102 135" fill="none" stroke="#222" stroke-width="4" stroke-linecap="round"/>
-                            <path d="M 132 125 Q 115 138 98 135" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round"/>
-                            <path d="M 132 125 Q 115 138 98 135" fill="none" stroke="#222" stroke-width="4" stroke-linecap="round"/>
-                            <!-- Patitas -->
-                            <ellipse cx="80" cy="188" rx="14" ry="7" fill="#ffffff" stroke="#222" stroke-width="4"/>
-                            <ellipse cx="120" cy="188" rx="14" ry="7" fill="#ffffff" stroke="#222" stroke-width="4"/>
-                            <!-- Pequeño Woodstock en la cabeza -->
-                            <path d="M 90 32 Q 96 20 102 32 Z" fill="#ffea00" stroke="#222" stroke-width="2"/>
-                            <circle cx="98" cy="27" r="2" fill="#222"/>
-                        </svg>
-                        <div class="snoopy-caption">"¡Un abrazo gigante para alegrar tu día!"</div>
-                    </div>
 
-                    <div class="letter-text">
-                        <p><strong>¡Hola linda! ✨</strong></p>
-                        <p>Hoy quería enviarte esta primara parte de la carta acompañada de un abrazo súper cálido de Snoopy. A veces las palabras no alcanzan para expresar lo especial que eres, pero este corazoncito es una muestra de todo el cariño que te tengo.</p>
-                        <p>Que nunca te falte una razón para sonreír, soñar bonito y sentirte abrazada en todo momento. 💕</p>
-                        <div class="letter-signature">Con todo mi cariño, Snoopy & Yo</div>
-                    </div>
-                </div>
-            </div>
+                <!-- SNOOPY -->
 
-            <!-- PARTE 2: SNOOPY CON UN RAMO DE FLORES AMARILLAS -->
-            <div class="card-part" id="card-part-2">
-                <div class="card-header">
-                    <div class="card-title">Parte II: Flores Amarillas del 21 🌻</div>
-                    <div class="card-badge">21 de Septiembre</div>
+                <div class="snoopy-box">
+
+                    <img
+                        src="https://clipart-library.com/2023/597-5970665_snoopy-and-woodstock-clipart-snoopy-and-woodstock-love.png"
+                        alt="Snoopy abrazando a Woodstock">
+
                 </div>
 
-                <div class="card-body-content">
-                    <div class="snoopy-box">
-                        <!-- Vector SVG Ilustración Snoopy con Ramo de Flores Amarillas -->
-                        <svg class="snoopy-svg" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Sombra -->
-                            <ellipse cx="100" cy="205" rx="65" ry="10" fill="#e6d28e" opacity="0.6"/>
-                            <!-- Cabeza Snoopy alzada alegre -->
-                            <path d="M 50 65 C 30 70 25 110 40 125 C 50 135 60 110 58 85 Z" fill="#222"/>
-                            <path d="M 60 65 C 60 30 110 25 130 50 C 145 65 145 90 130 100 C 110 110 75 110 65 95 Z" fill="#ffffff" stroke="#222" stroke-width="4.5"/>
-                            <!-- Ojitos guiño o feliz -->
-                            <circle cx="102" cy="55" r="4" fill="#222"/>
-                            <ellipse cx="132" cy="62" rx="9" ry="7" fill="#222"/>
-                            <path d="M 112 75 Q 124 86 132 74" fill="none" stroke="#222" stroke-width="3.5" stroke-linecap="round"/>
-                            <!-- Cuerpo -->
-                            <path d="M 75 100 L 70 165 Q 70 180 95 180 L 115 180 Q 130 180 125 160 L 120 100 Z" fill="#ffffff" stroke="#222" stroke-width="4.5"/>
-                            
-                            <!-- RAMO DE FLORES AMARILLAS -->
-                            <!-- Envoltorio del Ramo -->
-                            <polygon points="85,155 135,155 145,115 75,115" fill="#f8bbd0" stroke="#c2185b" stroke-width="3"/>
-                            <ribbon>
-                                <path d="M 100 135 Q 110 145 105 155 Q 100 145 90 145 Z" fill="#ff4081"/>
-                            </ribbon>
-                            <!-- Flores Amarillas / Girasoles sobre el ramo -->
-                            <!-- Flor 1 -->
-                            <circle cx="90" cy="100" r="14" fill="#ffd500"/>
-                            <circle cx="90" cy="100" r="6" fill="#6d4c41"/>
-                            <!-- Flor 2 -->
-                            <circle cx="115" cy="95" r="16" fill="#ffea00"/>
-                            <circle cx="115" cy="95" r="7" fill="#5d4037"/>
-                            <!-- Flor 3 -->
-                            <circle cx="138" cy="108" r="12" fill="#ffc107"/>
-                            <circle cx="138" cy="108" r="5" fill="#4e342e"/>
-                            <!-- Flor 4 Top -->
-                            <circle cx="102" cy="80" r="15" fill="#ffee58"/>
-                            <circle cx="102" cy="80" r="6" fill="#6d4c41"/>
 
-                            <!-- Manitas sosteniendo el ramo -->
-                            <ellipse cx="80" cy="130" rx="7" ry="9" fill="#fff" stroke="#222" stroke-width="3"/>
-                            <ellipse cx="125" cy="130" rx="7" ry="9" fill="#fff" stroke="#222" stroke-width="3"/>
-
-                            <!-- Patitas -->
-                            <ellipse cx="80" cy="183" rx="14" ry="7" fill="#ffffff" stroke="#222" stroke-width="4"/>
-                            <ellipse cx="120" cy="183" rx="14" ry="7" fill="#ffffff" stroke="#222" stroke-width="4"/>
-                        </svg>
-                        <div class="snoopy-caption">"¡Flores amarillas llenas de luz para ti!"</div>
-                    </div>
-
-                    <div class="letter-text">
-                        <p><strong>¡Llegó el 21 de Septiembre! 💛🌻</strong></p>
-                        <p>Como manda la tradición y la linda costumbre, hoy florece la primavera y no podía faltar tu ramo de flores amarillas. Cada una de las lucecitas de este ramo representa un deseo brillante para ti: felicidad, paz, amor y momentos inolvidables.</p>
-                        <p>Espero que al ver este ramo en 3D sientas la calidez y el cariño con el que fue creado para ti. ¡Que tu vida siempre esté llena de color amarillo radiante!</p>
-                        <div class="letter-signature">Feliz 21 de Septiembre ✨</div>
-                    </div>
+                <div class="signature">
+                    Con cariño ✨
                 </div>
+
+
+                <!-- BOTÓN A LA SEGUNDA PÁGINA -->
+
+                <button
+                    class="next-button"
+                    id="nextButton">
+
+                    💛 Hay una última sorpresa...
+
+                </button>
+
             </div>
 
         </div>
 
-        <!-- Botones de Acción Interactivas -->
-        <div class="actions-bar">
-            <button class="action-btn" onclick="burstYellowFlowers()">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> Lluvia de Flores Amarillas
-            </button>
-            <button class="action-btn" onclick="toggleAudio()">
-                <i class="fa-solid fa-music" id="music-icon"></i> <span id="music-text">Música Romántica</span>
-            </button>
-            <button class="action-btn" onclick="explode3DPoints()">
-                <i class="fa-solid fa-certificate"></i> ¡Efecto Explosión 3D!
-            </button>
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PÁGINA 2
+===================================================== -->
+
+<section
+    class="page hidden"
+    id="page2">
+
+    <div class="bouquet-content">
+
+        <h1 class="bouquet-title">
+            Un pequeño detalle<br>
+            para ti 💐
+        </h1>
+
+        <p class="bouquet-subtitle">
+            Espera un poquito... 🌼
+        </p>
+
+
+        <!-- AQUÍ SE DIBUJAN LAS FLORES -->
+
+        <canvas id="flowerCanvas"></canvas>
+
+
+        <div
+            class="final-message"
+            id="finalMessage">
+
+            <p>
+                🌼 Porque hay personas que merecen
+                recibir flores sin tener que esperar
+                una ocasión especial. 💛
+            </p>
+
+            <p style="margin-top:8px;">
+                Espero que estas flores te saquen
+                aunque sea una pequeña sonrisa. ✨
+            </p>
+
         </div>
+
+
+        <button
+            class="back-button"
+            id="backButton">
+
+            ← Volver
+
+        </button>
 
     </div>
 
-    <!-- Script de Three.js para el Ramo de Flores en Puntos 3D -->
-    <script>
-        let scene, camera, renderer, particleSystem;
+</section>
+
+
+
+<script>
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const page1 = document.getElementById("page1");
+const page2 = document.getElementById("page2");
+
+const openButton = document.getElementById("openButton");
+const letterWrapper = document.getElementById("letterWrapper");
+
+const nextButton = document.getElementById("nextButton");
+const backButton = document.getElementById("backButton");
+
+const music = document.getElementById("music");
+
+const magicCanvas =
+    document.getElementById("magicCanvas");
+
+const magicCtx =
+    magicCanvas.getContext("2d");
+
+
+
+/* =====================================================
+   MÚSICA
+   SOLO 1 MINUTO
+===================================================== */
+
+let musicStarted = false;
+let musicTimer = null;
+
+function startMusic(){
+
+    if(musicStarted) return;
+
+    musicStarted = true;
+
+    music.currentTime = 0;
+
+    const promise = music.play();
+
+    if(promise !== undefined){
+
+        promise.catch(() => {
+            console.log(
+                "El navegador bloqueó el audio automático."
+            );
+        });
+
+    }
+
+    musicTimer = setTimeout(() => {
+
+        music.pause();
+
+        music.currentTime = 60;
+
+    }, 60000);
+}
+
+
+/* =====================================================
+   FONDO DE DESTELLOS
+===================================================== */
+
+let sparkles = [];
+
+function resizeMagicCanvas(){
+
+    const dpr =
+        Math.min(window.devicePixelRatio || 1, 2);
+
+    magicCanvas.width =
+        window.innerWidth * dpr;
+
+    magicCanvas.height =
+        window.innerHeight * dpr;
+
+    magicCanvas.style.width =
+        window.innerWidth + "px";
+
+    magicCanvas.style.height =
+        window.innerHeight + "px";
+
+    magicCtx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+}
+
+window.addEventListener(
+    "resize",
+    resizeMagicCanvas
+);
+
+resizeMagicCanvas();
+
+
+function createSparkles(){
+
+    sparkles = [];
+
+    const amount =
+        window.innerWidth < 500
+        ? 45
+        : 70;
+
+    for(let i=0; i<amount; i++){
+
+        sparkles.push({
+
+            x:
+                Math.random() *
+                window.innerWidth,
+
+            y:
+                Math.random() *
+                window.innerHeight,
+
+            size:
+                Math.random()*1.8 + .4,
+
+            alpha:
+                Math.random(),
+
+            speed:
+                Math.random()*.018 + .006
+
+        });
+
+    }
+}
+
+createSparkles();
+
+
+function animateMagic(){
+
+    magicCtx.clearRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+    );
+
+    sparkles.forEach(s => {
+
+        s.alpha += s.speed;
+
+        if(
+            s.alpha >= 1 ||
+            s.alpha <= .05
+        ){
+            s.speed *= -1;
+        }
+
+        magicCtx.beginPath();
+
+        magicCtx.arc(
+            s.x,
+            s.y,
+            s.size,
+            0,
+            Math.PI*2
+        );
+
+        magicCtx.fillStyle =
+            `rgba(255,239,160,${Math.abs(s.alpha)})`;
+
+        magicCtx.fill();
+
+    });
+
+    requestAnimationFrame(
+        animateMagic
+    );
+}
+
+animateMagic();
+
+
+
+/* =====================================================
+   BOTÓN PRINCIPAL
+===================================================== */
+
+openButton.addEventListener(
+    "click",
+    function(){
+
+        startMusic();
+
+        openButton.style.display =
+            "none";
+
+        letterWrapper.classList.remove(
+            "hidden"
+        );
+
+        setTimeout(() => {
+
+            letterWrapper.scrollIntoView({
+                behavior:"smooth",
+                block:"center"
+            });
+
+        },150);
+
+        createSmallHearts(14);
+    }
+);
+
+
+
+/* =====================================================
+   CAMBIAR A LA SEGUNDA PÁGINA
+===================================================== */
+
+nextButton.addEventListener(
+    "click",
+    function(){
+
+        page1.classList.add("hidden");
+
+        page2.classList.remove("hidden");
+
+        window.scrollTo({
+            top:0,
+            behavior:"instant"
+        });
+
+        setTimeout(() => {
+
+            startBouquet();
+
+        },350);
+
+    }
+);
+
+
+
+/* =====================================================
+   VOLVER
+===================================================== */
+
+backButton.addEventListener(
+    "click",
+    function(){
+
+        page2.classList.add("hidden");
+
+        page1.classList.remove("hidden");
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }
+);
+
+
+
+/* =====================================================
+   CORAZONES
+===================================================== */
+
+function createHeart(){
+
+    const heart =
+        document.createElement("div");
+
+    heart.className =
+        "heart";
+
+    const hearts = [
+        "💛",
+        "🤍",
+        "💛",
+        "💖",
+        "🌼"
+    ];
+
+    heart.innerText =
+        hearts[
+            Math.floor(
+                Math.random()*hearts.length
+            )
+        ];
+
+    heart.style.left =
+        Math.random()*100 + "vw";
+
+    heart.style.bottom =
+        "-25px";
+
+    heart.style.setProperty(
+        "--x",
+        (Math.random()*180 - 90) + "px"
+    );
+
+    heart.style.setProperty(
+        "--r",
+        (Math.random()*100 - 50) + "deg"
+    );
+
+    heart.style.fontSize =
+        (Math.random()*13 + 13) + "px";
+
+    heart.style.animationDuration =
+        (Math.random()*1.8 + 2.8) + "s";
+
+    document.body.appendChild(
+        heart
+    );
+
+    setTimeout(
+        () => heart.remove(),
+        5000
+    );
+}
+
+
+function createSmallHearts(amount){
+
+    for(let i=0; i<amount; i++){
+
+        setTimeout(
+            createHeart,
+            i*90
+        );
+
+    }
+}
+
+
+function createFinalHearts(){
+
+    /*
+       No ponemos cientos para no saturar
+       el celular.
+    */
+
+    for(let i=0; i<65; i++){
+
+        setTimeout(
+            createHeart,
+            i*55
+        );
+
+    }
+}
+
+
+
+/* =====================================================
+   RAMO DE FLORES POR PUNTITOS
+=====================================================
