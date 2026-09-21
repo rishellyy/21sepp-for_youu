@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>21 de Septiembre 💐</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #0d0d0d;
+      color: #ffffff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Fondo de destellos brillantes */
+    #sparkles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 90%;
+      max-width: 700px;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #ff4d6d;
+      text-shadow: 0 0 10px rgba(255, 77, 109, 0.6);
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+
+    .subtext {
+      font-size: 0.95rem;
+      color: #cccccc;
+      margin-bottom: 8px;
+    }
+
+    .btn-hearts {
+      background: linear-gradient(45deg, #ff4d6d, #ff758f);
+      border: none;
+      color: white;
+      padding: 14px 32px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(255, 77, 109, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 30px;
+    }
+
+    .btn-hearts:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 77, 109, 0.8);
+    }
+
+    .message-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 20px 0;
+      display: none;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    .message-box p {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #ffe6e8;
+    }
+
+    .snoopy-gallery {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+
+    .snoopy-gallery img {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+    }
+
+    /* Ramo de Flores ASCII */
+    .ascii-section {
+      margin-top: 40px;
+      display: none;
+      animation: fadeIn 1.5s ease-in-out forwards;
+    }
+
+    .ascii-art {
+      font-family: 'Courier New', Courier, monospace;
+      white-space: pre;
+      font-size: 14px;
+      line-height: 1.2;
+      font-weight: bold;
+      display: inline-block;
+      text-align: left;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 239, 0, 0.2);
+    }
+
+    .f-yellow { color: #ffe600; text-shadow: 0 0 5px #ffe600; }
+    .f-orange { color: #ff8c00; text-shadow: 0 0 5px #ff8c00; }
+    .f-green  { color: #32cd32; text-shadow: 0 0 5px #32cd32; }
+
+    /* Corazones animados */
+    .heart {
+      position: fixed;
+      font-size: 20px;
+      user-select: none;
+      pointer-events: none;
+      z-index: 999;
+      animation: floatUp 3s linear forwards;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.3);
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="sparkles-canvas"></canvas>
+
+  <div class="container">
+    <h1>HOLAAAA esto es exclusivamente para ti 🫰🏻</h1>
+
+    <div class="subtext">Presiona el botón para abrir tu mensaje especial</div>
+    <button class="btn-hearts" onclick="celebrate()">click aquí</button>
+
+    <div class="message-box" id="messageBox">
+      <p>
+        ✨ ¡Feliz 21 de Septiembre! ✨<br>
+        En este día tan especial quiero recordarte cuánto te aprecio. Gracias por tu amistad, por cada sonrisa compartida y por estar presente. Que tu día esté lleno de momentos bonitos y mucha alegría. 💛
+      </p>
+
+      <div class="snoopy-gallery">
+        <img src="https://pngimg.com/uploads/snoopy/snoopy_PNG18.png" alt="Snoopy con flores">
+        <img src="https://pngimg.com/uploads/snoopy/snoopy_PNG28.png" alt="Snoopy con corazón">
+      </div>
+    </div>
+
+    <div class="ascii-section" id="asciiSection">
+      <h3 style="color: #ffe600; margin-bottom: 15px;">Un ramo de flores amarillas para ti 💐</h3>
+      <div class="ascii-art" id="asciiArt"></div>
+    </div>
+  </div>
+
+  <script>
+    // Fondo de puntos brillantes
+    const canvas = document.getElementById('sparkles-canvas');
+    const ctx = canvas.getContext('2d');
+    let sparkles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 80; i++) {
+      sparkles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2 + 0.5,
+        alpha: Math.random(),
+        speed: Math.random() * 0.02 + 0.005
+      });
+    }
+
+    function animateSparkles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      sparkles.forEach(s => {
+        s.alpha += s.speed;
+        if (s.alpha > 1 || s.alpha < 0) s.speed = -s.speed;
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(s.alpha)})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(animateSparkles);
+    }
+    animateSparkles();
+
+    // Ramo de Flores ASCII
+    const rawAscii = [
+      { text: "      .---.          .---.          .---.      ", type: "yellow" },
+      { text: "     /     \\        /     \\        /     \\     ", type: "yellow" },
+      { text: "    |   ", type: "yellow", extra: [{ text: "O", type: "orange" }, { text: "   |      |   ", type: "yellow" }, { text: "O", type: "orange" }, { text: "   |      |   ", type: "yellow" }, { text: "O", type: "orange" }, { text: "   |", type: "yellow" }] },
+      { text: "     \\     /        \\     /        \\     /     ", type: "yellow" },
+      { text: "      '---'          '---'          '---'      ", type: "yellow" },
+      { text: "        \\              |              /        ", type: "green" },
+      { text: "         \\             |             /         ", type: "green" },
+      { text: "          \\      .---. | .---.      /          ", type: "green" },
+      { text: "           \\    /     \\|/     \\    /           ", type: "green" },
+      { text: "            \\  |   ", type: "green", extra: [{ text: "O", type: "orange" }, { text: "   |   ", type: "yellow" }, { text: "O", type: "orange" }, { text: "   |  /            ", type: "green" }] },
+      { text: "             \\  \\     / \\     /  /             ", type: "green" },
+      { text: "              \\  '---'   '---'  /              ", type: "green" },
+      { text: "               \\   \\   |   /   /               ", type: "green" },
+      { text: "                \\   \\  |  /   /                ", type: "green" },
+      { text: "                 \\   \\ | /   /                 ", type: "green" },
+      { text: "                  \\   \\|/   /                  ", type: "green" },
+      { text: "                   \\   |   /                   ", type: "green" },
+      { text: "                    \\  |  /                    ", type: "green" },
+      { text: "                     \\ | /                     ", type: "green" },
+      { text: "                      \\|/                      ", type: "green" },
+      { text: "                       |                       ", type: "green" }
+    ];
+
+    function renderAscii() {
+      const container = document.getElementById('asciiArt');
+      let html = '';
+      
+      // Dibujo alternativo estructurado para garantizar el centro naranja
+      html = `
+<span class="f-yellow">      .-.             .-.             .-.      </span>
+<span class="f-yellow">     (   )           (   )           (   )     </span>
+<span class="f-yellow">    ( </span><span class="f-orange">O</span><span class="f-yellow"> )         ( </span><span class="f-orange">O</span><span class="f-yellow"> )         ( </span><span class="f-orange">O</span><span class="f-yellow"> )    </span>
+<span class="f-yellow">     \`-\'             \`-\'             \`-\'      </span>
+<span class="f-green">       \\              |              /        </span>
+<span class="f-green">        \\     .-.     |     .-.     /         </span>
+<span class="f-green">         \\   (   )    |    (   )   /          </span>
+<span class="f-green">          \\ ( </span><span class="f-orange">O</span><span class="f-green"> )   |   ( </span><span class="f-orange">O</span><span class="f-green"> ) /           </span>
+<span class="f-green">           \\ \`-\'     |    \`-\'  /            </span>
+<span class="f-green">            \\        |        /             </span>
+<span class="f-green">             \\       |       /              </span>
+<span class="f-green">              \\      |      /               </span>
+<span class="f-green">               \\     |     /                </span>
+<span class="f-green">                \\    |    /                 </span>
+<span class="f-green">                 \\   |   /                  </span>
+<span class="f-green">                  \\  |  /                   </span>
+<span class="f-green">                   \\ | /                    </span>
+<span class="f-green">                    \\|/                     </span>
+<span class="f-green">                     |                      </span>
+`;
+      container.innerHTML = html;
+    }
+
+    // Función para activar mensaje y corazones
+    function celebrate() {
+      document.getElementById('messageBox').style.display = 'block';
+      document.getElementById('asciiSection').style.display = 'block';
+      renderAscii();
+
+      // Generar lluvia de corazones blancos y rojos
+      for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+          createHeart();
+        }, i * 60);
+      }
+
+      // Desplazar suavemente hacia abajo
+      setTimeout(() => {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth'
+        });
+      }, 300);
+    }
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      const isRed = Math.random() > 0.5;
+      heart.innerText = isRed ? '❤️' : '🤍';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.bottom = '-20px';
+      heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
