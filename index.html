@@ -235,8 +235,6 @@ body{
     }
 }
 
-/* bordes de la carta */
-
 .letter::before{
     content:"";
     position:absolute;
@@ -436,8 +434,6 @@ body{
         );
 }
 
-/* texto final */
-
 .final-message{
     opacity:0;
     transform:translateY(15px);
@@ -458,8 +454,6 @@ body{
     opacity:1;
     transform:translateY(0);
 }
-
-/* botón volver */
 
 .back-button{
     margin-top:22px;
@@ -519,10 +513,6 @@ body{
     }
 }
 
-/* =====================================================
-   ADAPTACIÓN CELULAR
-===================================================== */
-
 @media(max-width:420px){
 
     .page{
@@ -564,28 +554,13 @@ body{
 
 <body>
 
-<!-- =====================================================
-     CANVAS FONDO
-===================================================== -->
-
 <canvas id="magicCanvas"></canvas>
-
-
-<!-- =====================================================
-     MÚSICA
-     Se reproducirá desde el botón y se detendrá en 60s
-===================================================== -->
 
 <audio id="music" preload="auto">
     <source
         src="Floricienta_-_Flores_Amarillas_Karaoke_Karaoke_(mp3.pm).mp3"
         type="audio/mpeg">
 </audio>
-
-
-<!-- =====================================================
-     PÁGINA 1
-===================================================== -->
 
 <section class="page" id="page1">
 
@@ -613,9 +588,6 @@ body{
 
         </button>
 
-
-        <!-- CARTA -->
-
         <div
             class="letter-wrapper hidden"
             id="letterWrapper">
@@ -625,7 +597,6 @@ body{
                 <h2 class="letter-title">
                     💌 Para ti
                 </h2>
-
 
                 <div class="letter-text">
 
@@ -662,9 +633,6 @@ body{
 
                 </div>
 
-
-                <!-- SNOOPY -->
-
                 <div class="snoopy-box">
 
                     <img
@@ -673,13 +641,9 @@ body{
 
                 </div>
 
-
                 <div class="signature">
                     Con cariño ✨
                 </div>
-
-
-                <!-- BOTÓN A LA SEGUNDA PÁGINA -->
 
                 <button
                     class="next-button"
@@ -697,12 +661,6 @@ body{
 
 </section>
 
-
-
-<!-- =====================================================
-     PÁGINA 2
-===================================================== -->
-
 <section
     class="page hidden"
     id="page2">
@@ -718,11 +676,7 @@ body{
             Espera un poquito... 🌼
         </p>
 
-
-        <!-- AQUÍ SE DIBUJAN LAS FLORES -->
-
         <canvas id="flowerCanvas"></canvas>
-
 
         <div
             class="final-message"
@@ -741,7 +695,6 @@ body{
 
         </div>
 
-
         <button
             class="back-button"
             id="backButton">
@@ -754,13 +707,7 @@ body{
 
 </section>
 
-
-
 <script>
-
-/* =====================================================
-   ELEMENTOS
-===================================================== */
 
 const page1 = document.getElementById("page1");
 const page2 = document.getElementById("page2");
@@ -773,351 +720,178 @@ const backButton = document.getElementById("backButton");
 
 const music = document.getElementById("music");
 
-const magicCanvas =
-    document.getElementById("magicCanvas");
-
-const magicCtx =
-    magicCanvas.getContext("2d");
-
-
-
-/* =====================================================
-   MÚSICA
-   SOLO 1 MINUTO
-===================================================== */
+const magicCanvas = document.getElementById("magicCanvas");
+const magicCtx = magicCanvas.getContext("2d");
 
 let musicStarted = false;
 let musicTimer = null;
 
 function startMusic(){
-
     if(musicStarted) return;
-
     musicStarted = true;
-
     music.currentTime = 0;
 
     const promise = music.play();
-
     if(promise !== undefined){
-
         promise.catch(() => {
-            console.log(
-                "El navegador bloqueó el audio automático."
-            );
+            console.log("El navegador bloqueó el audio automático.");
         });
-
     }
 
     musicTimer = setTimeout(() => {
-
         music.pause();
-
         music.currentTime = 60;
-
     }, 60000);
 }
-
-
-/* =====================================================
-   FONDO DE DESTELLOS
-===================================================== */
 
 let sparkles = [];
 
 function resizeMagicCanvas(){
-
-    const dpr =
-        Math.min(window.devicePixelRatio || 1, 2);
-
-    magicCanvas.width =
-        window.innerWidth * dpr;
-
-    magicCanvas.height =
-        window.innerHeight * dpr;
-
-    magicCanvas.style.width =
-        window.innerWidth + "px";
-
-    magicCanvas.style.height =
-        window.innerHeight + "px";
-
-    magicCtx.setTransform(
-        dpr,
-        0,
-        0,
-        dpr,
-        0,
-        0
-    );
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    magicCanvas.width = window.innerWidth * dpr;
+    magicCanvas.height = window.innerHeight * dpr;
+    magicCanvas.style.width = window.innerWidth + "px";
+    magicCanvas.style.height = window.innerHeight + "px";
+    magicCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-window.addEventListener(
-    "resize",
-    resizeMagicCanvas
-);
-
+window.addEventListener("resize", resizeMagicCanvas);
 resizeMagicCanvas();
 
-
 function createSparkles(){
-
     sparkles = [];
-
-    const amount =
-        window.innerWidth < 500
-        ? 45
-        : 70;
-
+    const amount = window.innerWidth < 500 ? 45 : 70;
     for(let i=0; i<amount; i++){
-
         sparkles.push({
-
-            x:
-                Math.random() *
-                window.innerWidth,
-
-            y:
-                Math.random() *
-                window.innerHeight,
-
-            size:
-                Math.random()*1.8 + .4,
-
-            alpha:
-                Math.random(),
-
-            speed:
-                Math.random()*.018 + .006
-
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            size: Math.random()*1.8 + .4,
+            alpha: Math.random(),
+            speed: Math.random()*.018 + .006
         });
-
     }
 }
 
 createSparkles();
 
-
 function animateMagic(){
-
-    magicCtx.clearRect(
-        0,
-        0,
-        window.innerWidth,
-        window.innerHeight
-    );
-
+    magicCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
     sparkles.forEach(s => {
-
         s.alpha += s.speed;
-
-        if(
-            s.alpha >= 1 ||
-            s.alpha <= .05
-        ){
+        if(s.alpha >= 1 || s.alpha <= .05){
             s.speed *= -1;
         }
-
         magicCtx.beginPath();
-
-        magicCtx.arc(
-            s.x,
-            s.y,
-            s.size,
-            0,
-            Math.PI*2
-        );
-
-        magicCtx.fillStyle =
-            `rgba(255,239,160,${Math.abs(s.alpha)})`;
-
+        magicCtx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+        magicCtx.fillStyle = `rgba(255,239,160,${Math.abs(s.alpha)})`;
         magicCtx.fill();
-
     });
-
-    requestAnimationFrame(
-        animateMagic
-    );
+    requestAnimationFrame(animateMagic);
 }
 
 animateMagic();
 
-
-
-/* =====================================================
-   BOTÓN PRINCIPAL
-===================================================== */
-
-openButton.addEventListener(
-    "click",
-    function(){
-
-        startMusic();
-
-        openButton.style.display =
-            "none";
-
-        letterWrapper.classList.remove(
-            "hidden"
-        );
-
-        setTimeout(() => {
-
-            letterWrapper.scrollIntoView({
-                behavior:"smooth",
-                block:"center"
-            });
-
-        },150);
-
-        createSmallHearts(14);
-    }
-);
-
-
-
-/* =====================================================
-   CAMBIAR A LA SEGUNDA PÁGINA
-===================================================== */
-
-nextButton.addEventListener(
-    "click",
-    function(){
-
-        page1.classList.add("hidden");
-
-        page2.classList.remove("hidden");
-
-        window.scrollTo({
-            top:0,
-            behavior:"instant"
+openButton.addEventListener("click", function(){
+    startMusic();
+    openButton.style.display = "none";
+    letterWrapper.classList.remove("hidden");
+    setTimeout(() => {
+        letterWrapper.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
         });
+    }, 150);
+    createSmallHearts(14);
+});
 
-        setTimeout(() => {
+nextButton.addEventListener("click", function(){
+    page1.classList.add("hidden");
+    page2.classList.remove("hidden");
+    window.scrollTo({ top:0, behavior:"instant" });
+    setTimeout(() => { startBouquet(); }, 350);
+});
 
-            startBouquet();
-
-        },350);
-
-    }
-);
-
-
-
-/* =====================================================
-   VOLVER
-===================================================== */
-
-backButton.addEventListener(
-    "click",
-    function(){
-
-        page2.classList.add("hidden");
-
-        page1.classList.remove("hidden");
-
-        window.scrollTo({
-            top:0,
-            behavior:"smooth"
-        });
-
-    }
-);
-
-
-
-/* =====================================================
-   CORAZONES
-===================================================== */
+backButton.addEventListener("click", function(){
+    page2.classList.add("hidden");
+    page1.classList.remove("hidden");
+    window.scrollTo({ top:0, behavior:"smooth" });
+});
 
 function createHeart(){
-
-    const heart =
-        document.createElement("div");
-
-    heart.className =
-        "heart";
-
-    const hearts = [
-        "💛",
-        "🤍",
-        "💛",
-        "💖",
-        "🌼"
-    ];
-
-    heart.innerText =
-        hearts[
-            Math.floor(
-                Math.random()*hearts.length
-            )
-        ];
-
-    heart.style.left =
-        Math.random()*100 + "vw";
-
-    heart.style.bottom =
-        "-25px";
-
-    heart.style.setProperty(
-        "--x",
-        (Math.random()*180 - 90) + "px"
-    );
-
-    heart.style.setProperty(
-        "--r",
-        (Math.random()*100 - 50) + "deg"
-    );
-
-    heart.style.fontSize =
-        (Math.random()*13 + 13) + "px";
-
-    heart.style.animationDuration =
-        (Math.random()*1.8 + 2.8) + "s";
-
-    document.body.appendChild(
-        heart
-    );
-
-    setTimeout(
-        () => heart.remove(),
-        5000
-    );
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    const hearts = ["💛", "🤍", "💛", "💖", "🌼"];
+    heart.innerText = hearts[Math.floor(Math.random()*hearts.length)];
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.bottom = "-25px";
+    heart.style.setProperty("--x", (Math.random()*180 - 90) + "px");
+    heart.style.setProperty("--r", (Math.random()*100 - 50) + "deg");
+    heart.style.fontSize = (Math.random()*13 + 13) + "px";
+    heart.style.animationDuration = (Math.random()*1.8 + 2.8) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
 }
-
 
 function createSmallHearts(amount){
-
     for(let i=0; i<amount; i++){
-
-        setTimeout(
-            createHeart,
-            i*90
-        );
-
+        setTimeout(createHeart, i*90);
     }
 }
-
 
 function createFinalHearts(){
-
-    /*
-       No ponemos cientos para no saturar
-       el celular.
-    */
-
     for(let i=0; i<65; i++){
-
-        setTimeout(
-            createHeart,
-            i*55
-        );
-
+        setTimeout(createHeart, i*55);
     }
 }
-
-
 
 /* =====================================================
    RAMO DE FLORES POR PUNTITOS
-=====================================================
+===================================================== */
+let bouquetStarted = false;
+
+function startBouquet(){
+    if(bouquetStarted) return;
+    bouquetStarted = true;
+
+    const flowerCanvas = document.getElementById("flowerCanvas");
+    const ctx = flowerCanvas.getContext("2d");
+
+    flowerCanvas.width = 500;
+    flowerCanvas.height = 460;
+
+    const dots = [];
+    const colors = ["#ffe600", "#ffd700", "#ffea00", "#ff9900", "#228b22", "#32cd32"];
+
+    // Puntos para flores y ramo
+    for(let i = 0; i < 400; i++){
+        let isStem = i > 280;
+        dots.push({
+            x: isStem ? 250 + (Math.random()*30 - 15) : 250 + (Math.random()*220 - 110),
+            y: isStem ? 280 + Math.random()*140 : 150 + (Math.random()*140 - 70),
+            size: Math.random()*3 + 1.5,
+            color: isStem ? colors[Math.floor(Math.random()*2 + 4)] : colors[Math.floor(Math.random()*4)],
+            alpha: Math.random()
+        });
+    }
+
+    function drawBouquet(){
+        ctx.clearRect(0, 0, flowerCanvas.width, flowerCanvas.height);
+        dots.forEach(d => {
+            ctx.beginPath();
+            ctx.arc(d.x, d.y, d.size, 0, Math.PI*2);
+            ctx.fillStyle = d.color;
+            ctx.fill();
+        });
+    }
+
+    drawBouquet();
+
+    setTimeout(() => {
+        document.getElementById("finalMessage").classList.add("show");
+        createFinalHearts();
+    }, 1200);
+}
+
+</script>
+</body>
+</html>
